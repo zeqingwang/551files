@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import FilterComponent from './components/FilterComponent';
+import MapComponent from './components/MapComponent';
 
 function App() {
+  const [filters, setFilters] = useState({
+    dateOccurred: '2010',
+    areaName: '',
+    crimeCode: '',
+    latitude: '',
+    longitude: ''
+  });
+  const [data, setData] = useState([]);
+
+  const onSearch = () => {
+    // Fetch data based on filters
+    // For demonstration, we're just setting random data
+    setData([
+      { latitude: parseFloat(filters.latitude) || 0, longitude: parseFloat(filters.longitude) || 0 }
+    ]);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <FilterComponent filters={filters} setFilters={setFilters} onSearch={onSearch} />
+      <MapComponent data={data} />
     </div>
   );
 }
