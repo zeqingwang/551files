@@ -8,29 +8,27 @@ function App() {
     areaName: '',
     crimeCode: '',
     violentLevel: '',
-    latitude: -118.2695,
-    longitude: 33.9825,
+    latitude: 34.022415,
+    longitude: -118.285530,
     radius: 10
   });
 
   const [data, setData] = useState([]);
-
+  const [center, setCenter] = useState([34.022415, -118.285530])
   const onSearch = async () => {
     // Fetch data based on filters
     // For demonstration, we're just setting random data
     //const url = 'http://lacrimeexplorer-env.eba-mw97embs.us-west-1.elasticbeanstalk.com/search-crimes';
     const url = '/LACrimeAnalysisTool(2)/search-crimes'
-
+    console.log(filters)
     const querybody = {
-      // longitude: filters.longitude,
-      // latitude: filters.latitude,
-      // radius: filters.radius
+
       "startDate": "2010-01-01",
       "endDate": "2023-01-01",
       "crimeCode": "900",
-      "longitude": -118.2695,
-      "latitude": 33.9825,
-      "radius": 0.625
+      "longitude": filters.longitude,
+      "latitude": filters.latitude,
+      "radius": filters.radius
 
     };
     try {
@@ -55,6 +53,7 @@ function App() {
       const result = await response.json();
       console.log(result);
       // Update the state with the fetched data
+      setCenter([filters.latitude, filters.longitude]);
       setData(result);
     } catch (error) {
       console.error('Failed to fetch data:', error);
@@ -65,7 +64,7 @@ function App() {
   return (
     <div className="App">
       <FilterComponent filters={filters} setFilters={setFilters} onSearch={onSearch} />
-      <MapComponent data={data} center={[filters.latitude, filters.longitude]} />
+      <MapComponent data={data} center={center} />
     </div>
   );
 }

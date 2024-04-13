@@ -30,9 +30,9 @@ function FilterComponent({ filters, setFilters, onSearch }) {
                 ))}
             </select>
 
-            <input type="number" placeholder="Latitude" value={latitude} onChange={e => setFilters({ ...filters, latitude: e.target.value })} />
-            <input type="number" placeholder="Longitude" value={longitude} onChange={e => setFilters({ ...filters, longitude: e.target.value })} />
-            <input type="number" placeholder="Radius" value={radius} onChange={e => setFilters({ ...filters, radius: e.target.value })} />
+            <input type="number" placeholder="Latitude" value={latitude} onChange={e => setFilters({ ...filters, latitude: parseFloat(e.target.value) })} />
+            <input type="number" placeholder="Longitude" value={longitude} onChange={e => setFilters({ ...filters, longitude: parseFloat(e.target.value) })} />
+            <input type="number" placeholder="Radius" value={radius} onChange={e => setFilters({ ...filters, radius: parseFloat(e.target.value) })} />
             <button onClick={onSearch}>Search</button>
         </div>
     );
