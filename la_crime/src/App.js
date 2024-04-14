@@ -7,10 +7,11 @@ function App() {
     dateOccurred: '',
     areaName: '',
     crimeCode: '',
-    violentLevel: '',
+    violentLevel: 3,
     latitude: 34.022415,
     longitude: -118.285530,
-    radius: 10
+    radius: 10,
+    selectionType: 'pinpoint' // default to 'area'
   });
 
   const [data, setData] = useState([]);
@@ -19,17 +20,34 @@ function App() {
     // Fetch data based on filters
     // For demonstration, we're just setting random data
     //const url = 'http://lacrimeexplorer-env.eba-mw97embs.us-west-1.elasticbeanstalk.com/search-crimes';
-    const url = '/LACrimeAnalysisTool(2)/search-crimes'
-    console.log(filters)
+    const url = '/LACrimeAnalysisTool(4)/search-crimes'
+
+    console.log(filters);
+    if (filters.selectionType === 'pinpoint') {
+      // Convert to numbers and check if they are NaN or zero (consider zero a valid or invalid value based on your context)
+      const latitude = Number(filters.latitude);
+      const longitude = Number(filters.longitude);
+      const radius = Number(filters.radius);
+
+      if (isNaN(latitude) || latitude === 0 || isNaN(longitude) || longitude === 0 || isNaN(radius) || radius === 0) {
+        alert('In pinpoint mode, latitude, longitude, and radius cannot be blank!');
+        console.log('Validation error');
+        return;
+      }
+    }
+
     const querybody = {
 
       //"startDate": "2010-01-01",
       "startDate": filters.dateOccurred == '' ? '2010-01-01' : filters.dateOccurred + '-01-01',
       "endDate": filters.dateOccurred == '' ? '2023-12-31' : filters.dateOccurred + '-12-31',
-      "crimeCode": "900",
-      "longitude": filters.longitude,
-      "latitude": filters.latitude,
-      "radius": filters.radius
+      "crimeCode": filters.crimeCode,
+      "longitude": filters.selectionType === 'pinpoint' ? filters.longitude : null,
+      "latitude": filters.selectionType === 'pinpoint' ? filters.latitude : null,
+      "radius": filters.selectionType === 'pinpoint' ? filters.radius : null,
+      "areaName": filters.selectionType === 'area' ? filters.areaName : null,
+      "violenceLevel": filters.violentLevel,
+      "filterBy": filters.selectionType
 
     };
     try {
@@ -58,12 +76,50 @@ function App() {
     }
 
   };
+  const handleTestClick = async () => {
+
+
+    const detailurl = `/LACrimeAnalysisTool(4)/crime-codes`;
+    //http://localhost:8080/LACrimeAnalysisTool(4)/crime-codes
+
+    try {
+      // Making a GET request with Fetch API
+      const response = await fetch(detailurl, {
+        method: 'GET',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/html'
+        }
+      });
+      console.log(response);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // Assuming the response is direct HTML content
+      const resultHtml = await response.text();
+      console.log(resultHtml);
+
+      // Use a blob to create a URL for the HTML content
+      const blob = new Blob([resultHtml], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+
+      // Open the result in a new tab
+      window.open(url, '_blank');
+    } catch (error) {
+      console.error('Failed to fetch data:', error);
+    }
+
+  };
+
 
   return (
     <div className="App">
       <FilterComponent filters={filters} setFilters={setFilters} onSearch={onSearch} />
       <MapComponent data={data} center={center} />
+      {/* <button onClick={handleTestClick}>Test</button> */}
     </div>
+
   );
 }
 

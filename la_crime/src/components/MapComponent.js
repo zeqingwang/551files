@@ -37,7 +37,7 @@ const handleMarkerClick = async (drNo) => {
     // } catch (error) {
     //     console.error('Failed to fetch data:', error);
     // }
-    const detailurl = `/LACrimeAnalysisTool(2)/crimeById?drNo=` + drNo;
+    const detailurl = `/LACrimeAnalysisTool(4)/crimeById?drNo=` + drNo;
 
     //console.log(url);
 
@@ -79,7 +79,7 @@ const MapComponent = ({ data, center }) => (
             center={{ lat: center[0], lng: center[1] }}
             zoom={10}
         >
-            {data.map((item, index) => (
+            {data.slice(0, 5000).map((item, index) => (
 
                 <Marker key={index} position={{ lat: item.latitude, lng: item.longitude }} onClick={() => handleMarkerClick(item.drNo)} />
             ))}
