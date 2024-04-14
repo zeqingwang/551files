@@ -8,6 +8,7 @@ function FilterComponent({ filters, setFilters, onSearch }) {
     return (
         <div>
             <select value={dateOccurred} onChange={e => setFilters({ ...filters, dateOccurred: e.target.value })}>
+                <option value="">Select a year</option>
                 {[...Array(14)].map((_, i) => (
                     <option key={i} value={2010 + i}>{2010 + i}</option>
                 ))}

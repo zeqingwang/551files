@@ -23,8 +23,9 @@ function App() {
     console.log(filters)
     const querybody = {
 
-      "startDate": "2010-01-01",
-      "endDate": "2023-01-01",
+      //"startDate": "2010-01-01",
+      "startDate": filters.dateOccurred == '' ? '2010-01-01' : filters.dateOccurred + '-01-01',
+      "endDate": filters.dateOccurred == '' ? '2023-12-31' : filters.dateOccurred + '-12-31',
       "crimeCode": "900",
       "longitude": filters.longitude,
       "latitude": filters.latitude,
@@ -32,8 +33,6 @@ function App() {
 
     };
     try {
-      // Making a POST request with Fetch API
-      //console.log(filters);
       console.log(querybody);
       const response = await fetch(url,
         {
@@ -52,7 +51,6 @@ function App() {
 
       const result = await response.json();
       console.log(result);
-      // Update the state with the fetched data
       setCenter([filters.latitude, filters.longitude]);
       setData(result);
     } catch (error) {
