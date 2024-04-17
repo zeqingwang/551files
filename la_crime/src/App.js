@@ -20,7 +20,7 @@ function App() {
     // Fetch data based on filters
     // For demonstration, we're just setting random data
     //const url = 'http://lacrimeexplorer-env.eba-mw97embs.us-west-1.elasticbeanstalk.com/search-crimes';
-    const url = '/LACrimeAnalysisTool(4)/search-crimes'
+    const url = '/LACrimeAnalysisTool/search-crimes'
 
     console.log(filters);
     if (filters.selectionType === 'pinpoint') {
@@ -76,6 +76,15 @@ function App() {
     }
 
   };
+  const setPosition = (lat,lng) => {
+    console.log("call app.js function ")
+    setFilters(prevFilters => ({
+      
+      ...prevFilters,
+      latitude: lat,
+      longitude: lng  
+    }));
+  };
   const handleTestClick = async () => {
 
 
@@ -116,7 +125,11 @@ function App() {
   return (
     <div className="App">
       <FilterComponent filters={filters} setFilters={setFilters} onSearch={onSearch} />
-      <MapComponent data={data} center={center} />
+       {/* <MapComponent data={data} center={center}   /> */}
+       <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <MapComponent data={data} center={center} setPosition={setPosition} />
+       </div>
+     
       {/* <button onClick={handleTestClick}>Test</button> */}
     </div>
 
