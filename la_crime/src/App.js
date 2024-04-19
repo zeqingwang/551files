@@ -10,21 +10,20 @@ function App() {
     violentLevel: 3,
     latitude: 34.022415,
     longitude: -118.285530,
-    radius: 10,
+    radius: 1,
     selectionType: 'pinpoint' // default to 'area'
   });
 
   const [data, setData] = useState([]);
   const [center, setCenter] = useState([34.022415, -118.285530])
   const onSearch = async () => {
-    // Fetch data based on filters
-    // For demonstration, we're just setting random data
+ 
     //const url = 'http://lacrimeexplorer-env.eba-mw97embs.us-west-1.elasticbeanstalk.com/search-crimes';
     const url = '/LACrimeAnalysisTool/search-crimes'
 
     console.log(filters);
     if (filters.selectionType === 'pinpoint') {
-      // Convert to numbers and check if they are NaN or zero (consider zero a valid or invalid value based on your context)
+     
       const latitude = Number(filters.latitude);
       const longitude = Number(filters.longitude);
       const radius = Number(filters.radius);
@@ -92,7 +91,7 @@ function App() {
     //http://localhost:8080/LACrimeAnalysisTool(4)/crime-codes
 
     try {
-      // Making a GET request with Fetch API
+
       const response = await fetch(detailurl, {
         method: 'GET',
         mode: 'no-cors',
@@ -105,15 +104,13 @@ function App() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // Assuming the response is direct HTML content
+     
       const resultHtml = await response.text();
       console.log(resultHtml);
 
-      // Use a blob to create a URL for the HTML content
       const blob = new Blob([resultHtml], { type: 'text/html' });
       const url = URL.createObjectURL(blob);
 
-      // Open the result in a new tab
       window.open(url, '_blank');
     } catch (error) {
       console.error('Failed to fetch data:', error);
