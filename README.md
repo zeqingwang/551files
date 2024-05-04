@@ -1,8 +1,10 @@
-# 551files
+# React Frontend Project
 Getting Started with Create React App
 This project was bootstrapped with Create React App.
-
+Main developement is foucuse on App.js MapComponent.js and FilterComponent.js under src folder
 Available Scripts
+Before run the project, use npm install to install the project. 
+
 In the project directory, you can run:
 
 npm start
