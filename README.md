@@ -3,6 +3,8 @@ Getting Started with Create React App
 This project was bootstrapped with Create React App.
 Main developement is foucuse on App.js MapComponent.js and FilterComponent.js under src folder
 Available Scripts
+Download Node.js: Visit the official Node.js website and download the installer for your operating system. This will also install npm.
+
 Before run the project, use npm install to install the project. 
 
 In the project directory, you can run:
