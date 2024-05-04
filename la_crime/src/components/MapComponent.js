@@ -12,49 +12,18 @@ const getMarkerColor = (violenceLevel) => {
         case 1:
             return 'https://maps.google.com/mapfiles/kml/paddle/wht-blank.png';
         default:
-            return 'http://maps.google.com/mapfiles/kml/paddle/blu-blank.png'; 
+            return 'http://maps.google.com/mapfiles/kml/paddle/blu-blank.png';
     }
 };
 const handleMarkerClick = async (drNo) => {
 
-    // const url = '/LACrimeAnalysisTool(2)/crimeById'
-    // console.log(url)
 
-    // try {
-    //     
-    //     const querybody = {
-
-
-    //         "drNo": drNo
-
-    //     };
-    //     const response = await fetch(url,
-    //         {
-    //             method: 'POST',
-    //             mode: 'no-cors',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(querybody)
-    //         }
-    //     );
-    //     console.log(response);
-    //     if (!response.ok) {
-    //         throw new Error(`HTTP error! status: ${response.status}`);
-    //     }
-
-    //     const result = await response.json();
-    //     console.log(result);
-
-    // } catch (error) {
-    //     console.error('Failed to fetch data:', error);
-    // }
     const detailurl = `/LACrimeAnalysisTool/crimeById?drNo=` + drNo;
 
     //console.log(url);
 
     try {
- 
+
         const response = await fetch(detailurl, {
             method: 'GET',
             mode: 'no-cors',
@@ -92,14 +61,14 @@ const MapComponent = ({ data, center, setPosition }) => (
             center={{ lat: center[0], lng: center[1] }}
             zoom={10}
             onClick={ev => {
-                setPosition(ev.latLng.lat(),ev.latLng.lng());
+                setPosition(ev.latLng.lat(), ev.latLng.lng());
                 console.log("latitide = ", ev.latLng.lat());
                 console.log("longitude = ", ev.latLng.lng());
             }}
         >
             {data.slice(0, 5000).map((item, index) => (
 
-                <Marker key={index} position={{ lat: item.latitude, lng: item.longitude }} onClick={() => handleMarkerClick(item.drNo)} icon={getMarkerColor (item.violenceLevel)} />
+                <Marker key={index} position={{ lat: item.latitude, lng: item.longitude }} onClick={() => handleMarkerClick(item.drNo)} icon={getMarkerColor(item.violenceLevel)} />
             ))}
         </GoogleMap>
     </LoadScript>
